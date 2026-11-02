@@ -22,7 +22,7 @@ myservo.attach(5);
   pinMode(LED_PIN, OUTPUT); }
  void loop() { 
    digitalWrite(TRIG_PIN, HIGH);
-  delayMicroseconds(10000);
+  delayMicroseconds(10);
   digitalWrite(TRIG_PIN, LOW);
    duration_us = pulseIn(ECHO_PIN, HIGH);
    delay(1000);
