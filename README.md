@@ -1,46 +1,66 @@
-# SELF-SORTING-DUSTBIN
-# Summary of the project: 
-Many times, we have seen people throw garbage without caring if its biodegradable or non-biodegradable and are unaware about the importance of segregating the waste. We built this Smart Dustbin with the idea of creating a method of easy segregation of waste along with touch free disposal for the users. Using a variety of sensors, we have been able to accomplish the segregation of wet waste and dry waste and the touch free feature, which is really important to prevent the transmission of germs, viruses and bacteria, and hence to prevent transmission of various diseases.
- 	 
-# Details about the project: 
-# Features Planned
-1.	 Our initial plan was to make a smart dustbin with some interesting added features like sorting of waste materials into moist and dry and biodegradable or non-biodegradable.
-2.	Also, making it touch free, that is the user will only have to stand in front of it. 
-3.	It is an initiative to create cleaner and much hygienic surroundings.
+# Self-Sorting Dustbin
 
-# Features Implemented
-1.	If the user stands at a distance x from the dustbin (x set by the creator), the lid opens automatically as sensed by the ultrasonic sensor.
-2.	At this moment, the user can throw the waste in the dustbin.
-3.	The waste product through the mouth of the dustbin goes through a chamber where it is distinguished between biodegradable or non-biodegradable.
-4.	According to the composition and moisture content of the waste the secondary lids open and the waste material is dropped there.
-5.	In case of a biodegradable chamber, it is monitored by an air quality sensor which monitors the air quality in it and if the quality starts to get poor which basically shows decaying it will lead to the switching ON of the indicator LEDs. 
-# STRENGTHS	
-Helps in waste management.
-Easy sorting of waste between the bio and non-biodegradable.
-Instead of installing two bins for two separate waste this single bin can do both things.
-Comes up with an indicator which observes the condition of biodegradable waste and informs when it is mandatory to be removed.
-Prevents the foul odour from the waste from coming out to the surroundings.
-Contributes to Swachh Bharat Abhiyan
-# WEAKNESSES	
-Depending on the place where it is installed the power supply must be decided. In the case of outdoor, solar will work but in case of indoor batteries must be installed which can have periodic maintenance. 
-Proper and periodic maintenance of the machine will be required to keep a check on all the electronic parts, which might be difficult to do on a large level.
-# OPPORTUNITIES	
-If implemented properly, it will be a great step towards making our campus and country smart.
-Can reduce the possibility of transfer of bacteria and germs and hence, reduce the transmission of diseases.
-# THREATS	
-It might be difficult to implement the project on a very large scale with limited number of requirements.
-We may face external barriers while trying to implement it on a national level.
+A touch-free Arduino smart dustbin prototype. An ultrasonic sensor detects a person or an object at the opening, and a servo steers the waste to one of two sides depending on the humidity reading from a DHT11 sensor.
 
+![Prototype](Project%20Pic.png)
 
+## Why
 
+People often mix wet and dry waste, and touching a bin lid spreads germs. This prototype explores a bin that opens without touch and separates waste automatically.
 
+## How it works
 
+1. The HC-SR04 ultrasonic sensor measures the distance in front of the opening.
+2. If something is closer than **10 cm**, the Arduino reads the DHT11 humidity.
+3. The servo moves according to the humidity reading:
+   - **64% or below** → servo to 0° (dry side)
+   - **65% or above** → servo to 180° (wet side)
+4. When nothing is detected, the servo returns to 90° (neutral).
+5. Temperature, humidity and soil-moisture values are printed on the Serial Monitor at 9600 baud.
 
+The humidity thresholds depend on the room. Adjust them in the code (`DHT.humidity <= 64` and `>= 65`) for your environment.
 
+## Circuit
 
+![Circuit diagram](Circuit_Dustbin.png)
 
- 
-# Scope of Improvement: 
-•	We can add more improvements in the segregation of waste part by increasing the categories in which the waste is divided into.
-•	We can also add other features like automatic metal arms which will sense the waste around the dustbin and hence, clean it automatically.
-•	We also must figure out the power supply for the dustbins as batteries require regular maintenance which might be a big hassle.
+The circuit is also available as a Fritzing file: `Circuit_Dustbin.fzz`.
+
+## Hardware
+
+- Arduino Uno
+- HC-SR04 ultrasonic sensor
+- Servo motor (sorting flap)
+- DHT11 temperature and humidity sensor
+- Soil-moisture sensor (reading is printed only; it is not used in the sorting decision)
+- 2 LEDs (shown in the circuit diagram; not driven by the current code)
+
+## Software
+
+- Arduino IDE
+- Libraries: `Servo`, `dht` (DHT11 library)
+
+## Setup
+
+1. Wire the components as shown in the circuit diagram.
+2. Install the `dht` library in the Arduino IDE.
+3. Upload `Code_self-sorting_dustbin.ino` to the Arduino.
+4. Open the Serial Monitor at 9600 baud to see the sensor readings.
+
+## Limitations
+
+- The sorting decision is based on **air humidity**, which is a rough stand-in for wet or dry waste. It cannot identify materials.
+- The soil-moisture sensor is read but not used, and the LEDs are not controlled by the code.
+- The thresholds need manual tuning for each location.
+- Prototype built from cardboard; not intended for real waste handling.
+
+## Possible improvements
+
+- Use the soil-moisture reading in the sorting decision
+- Separate the lid control (touch-free opening) from the sorting servo
+- Add a fill-level sensor and an LED or buzzer indicator
+- Add more waste categories
+
+## License
+
+Apache-2.0
